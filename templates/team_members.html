@@ -1,0 +1,66 @@
+{% extends 'dashboard.html'%} {%block content%}
+<style>
+  table,
+  th,
+  td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  table {
+    border-spacing: 5px;
+  }
+
+  th,
+  td {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 40px;
+  }
+</style>
+<div class="container">
+  <div>
+    <form method="GET" style="margin-bottom: 4%; margin-top: 2%">
+      <input type="text" placeholder="Search" name="search" />
+      <button type="submit">
+        Search<i class="fa fa-magnifying-glass px-2"></i>
+      </button>
+    </form>
+  </div>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Role</th>
+      <th>Assigned To</th>
+    </tr>
+    {%for f in members %}
+    <tr style="height: 80px">
+      <td>{{f.full_name}}</td>
+      <td>{{f.get_role_display}}</td>
+      <td>{{f.assigned_to}}</td>
+
+      <td>
+        <a href="/dashboard/update_member/{{f.id}}"
+          ><i class="fa fa-pencil"></i
+        ></a>
+        <a href="/dashboard/delete_member/{{f.id}}"
+          ><i class="fa fa-trash"></i
+        ></a>
+      </td>
+    </tr>
+    {%endfor%}
+  </table>
+  <div>
+    {%for page in paginator.page_range%}
+    <a href="?page={{page}}&search={{request.GET.search}}"> {{page}} </a>
+    {%endfor%}
+  </div>
+  <div>
+    <button style="float: right">
+      <a href="/dashboard/add_team_member/"
+        ><i class="fa fa-plus">Add Team Member</i></a
+      >
+    </button>
+  </div>
+</div>
+{%endblock%}

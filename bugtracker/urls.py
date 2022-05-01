@@ -16,11 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from core.views import GenericDashboardView, UserLoginView
+from core.views import AddTeamMemberView, DeleteTeamMemberView, GenericDashboardView, TeamMembersListView, UpdateTeamMember, UserLoginView
 from django.contrib.auth.views import LogoutView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', UserLoginView.as_view()),
     path('dashboard/', GenericDashboardView.as_view()),
-    path('logout/', LogoutView.as_view())
+    path('logout/', LogoutView.as_view()),
+    path('dashboard/add_team_member/', AddTeamMemberView.as_view()),
+    path('dashboard/members/', TeamMembersListView.as_view()),
+    path('dashboard/update_member/<pk>/', UpdateTeamMember.as_view()),
+    path('dashboard/delete_member/<pk>/',  DeleteTeamMemberView.as_view())
+
 ]
