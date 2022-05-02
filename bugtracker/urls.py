@@ -31,6 +31,6 @@ urlpatterns = [
     path('dashboard/add_bug/', AddBugView.as_view()),
     path('dashboard/bugs/', BugsListView.as_view()),
     path('dashboard/update_bug/<pk>', UpdateBug.as_view()),
-    path('dashboard/delete_bug/<pk>', DeleteBugView.as_view())
+    path('dashboard/delete_bug/<pk>', DeleteBugView.as_view()),
 
 ]

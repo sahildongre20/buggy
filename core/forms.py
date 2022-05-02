@@ -2,6 +2,7 @@ from turtle import width
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from .models import Bug, Project, User
+from django.core.mail import send_mail
 
 
 class TeamMemberForm(UserCreationForm):
@@ -15,6 +16,15 @@ class TeamMemberForm(UserCreationForm):
 
         super().__init__(*args, **kwargs)
         self.fields['role'].choices = [('TM', 'Team Member')]
+
+    def save(self, commit=True):
+        new_member = self.instance
+        password = self.cleaned_data["password1"]
+        content = f" hey {new_member.full_name} , here are your login details\n username :  {new_member.username} \n password :  {password}"
+        send_mail("Login Details for Bug Tracker", content,
+                  "admin@thebugtrackerproject.in", [new_member.email])
+
+        return super().save(commit)
 
 
 class AddBugForm(forms.ModelForm):
