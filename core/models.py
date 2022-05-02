@@ -1,5 +1,7 @@
 from operator import mod
+from pydoc import describe
 from statistics import mode
+from turtle import title
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
@@ -26,3 +28,22 @@ class User(AbstractUser):
     @property
     def is_project_owner(self):
         return self.role == 'O'
+
+
+BUG_STATUS_CHOICES = [('NEW', 'NEW'), ('OPEN', 'OPEN'),
+                      ('ASSIGNED', 'ASSIGNED'), ('FIXED', 'FIXED')]
+
+PRIORITY_CHOICES = [('LOW', 'LOW'), ('MEDIUM', 'MEDIUM'), ('HIGH', 'HIGH')]
+
+
+class Bug(models.Model):
+    title = models.CharField(max_length=200, null=False)
+    description = models.TextField(null=True)
+    status = models.CharField(max_length=15, null=True,
+                              choices=BUG_STATUS_CHOICES)
+    assigned_to = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.PROTECT, related_name='assignee_user_set')
+    submitted_by = models.ForeignKey(
+        User, blank=True, null=True, on_delete=models.PROTECT, related_name='issuer_user_set')
+    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES)

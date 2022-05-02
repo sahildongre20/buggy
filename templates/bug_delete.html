@@ -1,0 +1,10 @@
+{%extends 'dashboard.html'%} {% block content %}
+
+<div>
+  <form method="post">
+    {%csrf_token%}
+    <p>Are you sure you want to delete Bug "<span>{{object.title}}</span>" ?</p>
+    <input type="submit" value="Confirm" />
+  </form>
+</div>
+{% endblock %}
