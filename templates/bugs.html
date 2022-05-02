@@ -31,6 +31,7 @@
     <tr>
       <th>Id</th>
       <th>Title</th>
+      <th>Added Date</th>
       <th>description</th>
       <th>Priority</th>
       <th>Status</th>
@@ -46,6 +47,8 @@
       {% endif %} {% if f.priority == 'LOW' %}
       <td style="color: yellow">{{f.title}}</td>
       {% endif %}
+      <td>{{f.added_date}}</td>
+
       <td>{{f.description}}</td>
 
       <td>{{f.priority}}</td>

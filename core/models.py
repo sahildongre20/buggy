@@ -41,6 +41,7 @@ class Bug(models.Model):
     description = models.TextField(null=True)
     status = models.CharField(max_length=15, null=True,
                               choices=BUG_STATUS_CHOICES)
+    added_date = models.DateField(auto_now=True)
     assigned_to = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.PROTECT, related_name='assignee_user_set')
     submitted_by = models.ForeignKey(
