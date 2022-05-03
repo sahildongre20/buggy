@@ -20,9 +20,9 @@ class TeamMemberForm(UserCreationForm):
     def save(self, commit=True):
         new_member = self.instance
         password = self.cleaned_data["password1"]
-        content = f" hey {new_member.full_name} , here are your login details\n username :  {new_member.username} \n password :  {password}"
+        content = f" hey {new_member.full_name} you have been added as {new_member.get_role_display()} , here are your login details\n username :  {new_member.username} \n password :  {password}"
         send_mail("Login Details for Bug Tracker", content,
-                  "admin@thebugtrackerproject.in", [new_member.email])
+                  "admin@weirdpals.tech", [new_member.email])
 
         return super().save(commit)
 
