@@ -4,6 +4,7 @@ from statistics import mode
 from turtle import title
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from .prediction import get_severity
 # Create your models here.
 ROLE_CHOICES = [('TL', 'Team Lead'), ('TM', 'Team Member'),
                 ('O', 'Project Owner')]
@@ -35,6 +36,9 @@ BUG_STATUS_CHOICES = [('NEW', 'NEW'), ('OPEN', 'OPEN'),
 
 PRIORITY_CHOICES = [('LOW', 'LOW'), ('MEDIUM', 'MEDIUM'), ('HIGH', 'HIGH')]
 
+SEVERITY_CHOICES = [('MINOR', 'MINOR'), ('NORMAL', 'NORMAL'),
+                    ('MAJOR', 'MAJOR'), ('CRITICAL', 'CRITICAL'), ('BLOCKER', 'BLOCKER')]
+
 
 class Bug(models.Model):
     title = models.CharField(max_length=200, null=False)
@@ -48,3 +52,8 @@ class Bug(models.Model):
         User, blank=True, null=True, on_delete=models.PROTECT, related_name='issuer_user_set')
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES)
+    severity = models.CharField(max_length=20, null=True)
+
+    def save(self, *args, **kwargs):
+        self.severity = get_severity(self.description)
+        super(Bug, self).save(*args, **kwargs)

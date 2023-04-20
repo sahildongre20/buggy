@@ -36,6 +36,7 @@
       <th>Priority</th>
       <th>Status</th>
       <th>Assigned To</th>
+      <th>Severity</th>
     </tr>
     {%for f in bugs %}
     <tr style="height: 80px">
@@ -54,6 +55,7 @@
       <td>{{f.priority}}</td>
       <td>{{f.status}}</td>
       <td>{{f.assigned_to}}</td>
+      <td>{{f.severity}}</td>
 
       <td>
         <a href="/dashboard/update_bug/{{f.id}}"
