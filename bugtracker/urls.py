@@ -18,8 +18,9 @@ from django.urls import path
 from core.forms import AddBugForm
 
 from core.views import AddBugView, AddTeamMemberView, BugsListView, DeleteBugView, DeleteTeamMemberView, GenericDashboardView, TeamMembersListView, UpdateBug, UpdateTeamMember, UserLoginView
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView,TemplateView
 urlpatterns = [
+    path('', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
     path('login/', UserLoginView.as_view()),
     path('dashboard/', GenericDashboardView.as_view()),
