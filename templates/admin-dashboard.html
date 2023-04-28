@@ -1,0 +1,83 @@
+{%extends 'dashboard.html' %} 
+
+<!-- CONTENT -->
+{% block content%}
+
+<!-- MAIN -->
+<main>
+    <div class="head-title">
+        <div class="left">
+            <h1>Dashboard</h1>
+        </div>
+        <a href="#" class="btn-download">
+            <i class='bx bxs-cloud-download' ></i>
+            <span class="text">Download PDF</span>
+        </a>
+    </div>
+
+    <ul class="box-info">
+        <li>
+            <i class='bx bxs-calendar-check' ></i>
+            <span class="text">
+                <h3>1020</h3>
+                <p>Totla Bugs</p>
+            </span>
+        </li>
+        <li>
+            <i class='bx bxs-group' ></i>
+            <span class="text">
+                <h3>2834</h3>
+                <p>Team Member</p>
+            </span>
+        </li>
+    </ul>
+    <div class="table-data">
+
+    <div class="todo">
+        <div class="head">
+            <h2 >Analytics</h2>
+        </div>
+        <div class="table-data">
+            <div class="todo">
+                <h3>Priority Chart</h3>
+                <div class="head">
+                    <canvas id="priority-chart"></canvas>
+  
+                </div>
+                
+            </div>
+            <div class="todo">
+                <h3>Severity Chart</h3>
+                <div class="head">
+                    <br>
+  <canvas id="severity-chart"></canvas>
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+
+       
+</main>
+<!-- MAIN -->
+</section>
+<!-- CONTENT -->
+<script>
+    var priorityData = {{ priority_chart|safe }};
+    var severityData = {{ severity_chart|safe }};
+
+    var priorityCtx = document.getElementById('priority-chart').getContext('2d');
+    var severityCtx = document.getElementById('severity-chart').getContext('2d');
+
+    var priorityChart = new Chart(priorityCtx, priorityData
+    );
+
+    var severityChart = new Chart(severityCtx,severityData
+    );
+  </script>
+{% endblock %}
+
