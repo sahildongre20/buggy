@@ -40,6 +40,16 @@ SEVERITY_CHOICES = [('MINOR', 'MINOR'), ('NORMAL', 'NORMAL'),
                     ('MAJOR', 'MAJOR'), ('CRITICAL', 'CRITICAL'), ('BLOCKER', 'BLOCKER')]
 
 
+class BugManager(models.Manager):
+    def for_user(self, user):
+        if user.is_superuser:
+            return self.all()
+        elif user.role == 'O':
+            return self.filter(project=user.assigned_to)
+        else:
+            return self.filter(project=user.assigned_to, assigned_to=user)
+
+
 class Bug(models.Model):
     title = models.CharField(max_length=200, null=False)
     description = models.TextField(null=True)
@@ -53,6 +63,8 @@ class Bug(models.Model):
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES)
     severity = models.CharField(max_length=20, null=True)
+
+    objects = BugManager()
 
     def save(self, *args, **kwargs):
         self.severity = get_severity(self.description)

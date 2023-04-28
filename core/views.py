@@ -1,4 +1,5 @@
 
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import PermissionDenied
@@ -8,6 +9,7 @@ from django.views.generic.list import ListView
 
 from core.forms import AddBugForm, TeamMemberForm, UpdateBugForm
 from core.models import Bug, User
+from django.db.models import Count
 
 
 def isAdmin(user):
@@ -37,6 +39,13 @@ class UserLoginView(LoginView):
 
 class GenericDashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["priority_chart"] = get_priority_chart
+        context["severity_chart"] = get_severity_chart
+        return context
 
 
 class AddTeamMemberView(OnlyProjectOwnerAccessibleMixin, CreateView):
@@ -99,13 +108,13 @@ class BugsListView(LoginRequiredMixin, ListView):
     context_object_name = "bugs"
     model = Bug
     template_name = 'bugs.html'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         search_item = self.request.GET.get("search")
 
-        bugs = Bug.objects.filter(
-            project=self.request.user.assigned_to)
+        bugs = Bug.objects.for_user(self.request.user)
+
         if search_item:
             bugs = bugs.filter(
                 title__icontains=search_item)
@@ -134,3 +143,67 @@ class DeleteBugView(LoginRequiredMixin, DeleteView):
         bugs = Bug.objects.filter(
             project=self.request.user.assigned_to)
         return bugs
+
+
+# viesew for displaying charts in the dashboard
+
+def get_priority_chart():
+    chart1_data = Bug.objects.values(
+        'priority').annotate(count=Count('id'))
+    labels = [str(d['priority']) for d in chart1_data]
+    counts = [d['count'] for d in chart1_data]
+    chart1_config = {
+        'type': 'bar',
+        'data': {
+            'labels': labels,
+            'datasets': [{
+                'label': 'Bug Priority',
+                'data': counts,
+                'backgroundColor': 'rgba(255, 99, 132, 0.2)',
+                'borderColor': 'rgba(255, 99, 132, 1)',
+                'borderWidth': 1
+            }]
+        },
+        'options': {
+            'scales': {
+                'yAxes': [{
+                    'ticks': {
+                          'beginAtZero': True
+                          }
+                }]
+            }
+        }
+    }
+
+    return json.dumps(chart1_config)
+
+
+def get_severity_chart():
+    chart1_data = Bug.objects.values(
+        'severity').annotate(count=Count('id'))
+    labels = [str(d['severity']) for d in chart1_data]
+    counts = [d['count'] for d in chart1_data]
+    chart1_config = {
+        'type': 'bar',
+        'data': {
+            'labels': labels,
+            'datasets': [{
+                'label': 'Bug Severity',
+                'data': counts,
+                'backgroundColor': 'rgba(255, 99, 132, 0.2)',
+                'borderColor': 'rgba(255, 99, 132, 1)',
+                'borderWidth': 1
+            }]
+        },
+        'options': {
+            'scales': {
+                'yAxes': [{
+                    'ticks': {
+                          'beginAtZero': True
+                          }
+                }]
+            }
+        }
+    }
+
+    return json.dumps(chart1_config)
