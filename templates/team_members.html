@@ -1,24 +1,6 @@
 {% extends 'dashboard.html'%} {%block content%}
-<style>
-  table,
-  th,
-  td {
-    border: 1px solid black;
-    border-collapse: collapse;
-  }
-  table {
-    border-spacing: 5px;
-  }
 
-  th,
-  td {
-    padding-top: 10px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 40px;
-  }
-</style>
-<div class="container">
+<!-- <div class="container">
   <div>
     <form method="GET" style="margin-bottom: 4%; margin-top: 2%">
       <input type="text" placeholder="Search" name="search" />
@@ -62,5 +44,111 @@
       >
     </button>
   </div>
-</div>
+</div> -->
+
+<style>
+  .bug-button{
+     width: 120px;
+     height: 35px;
+     color: white;
+     background-color: #3C91E6;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     font-style: normal;
+  }
+  .bug-button:hover{
+   color: #3C91E6;
+   background-color: white;
+   transition: 0.20s;
+   border-color: #3C91E6;
+   border-style: solid;
+  }
+ .bug-button:active{
+   opacity: 0.3;
+   transition: 0.20s;
+   
+ }
+ .search{
+   height: 35px;
+   padding-left: 10px;
+   border: #3C91E6 solid;
+   border-radius: 5px;
+ }
+ td{
+   max-width: 50px;
+   
+ }
+ tr{
+   border:2px #3C91E6 solid ;
+   margin-left: 10px;
+ 
+   
+ }
+ thead{
+   background-color: #3C91E6;
+   color: white;
+ }
+ th, td {
+  padding: 15px;
+}
+ table td+ td{
+   border-left:2px #3C91E6 solid ;
+   
+ }
+
+ </style>
+   <main>
+     <h1>Team Members</h1>
+     <div class="table-data">
+       <div class="order">
+         <div class="head">
+           
+           <form  clss="search-box" method="GET" style="margin-bottom: 4%; margin-top: 2%; ">
+             <input class="search" type="text" placeholder="Search" name="search" />
+             <button type="submit" class="bug-button">
+               Search <i class='bx bx-search-alt-2' ></i>
+               </button>
+               </form>
+         </div>
+         <table>
+          <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Assigned To</th>
+          </tr>
+          {%for f in members %}
+          <tr style="height: 80px">
+            <td>{{f.full_name}}</td>
+            <td>{{f.get_role_display}}</td>
+            <td>{{f.assigned_to}}</td>
+      
+            <td>
+              <a href="/dashboard/update_member/{{f.id}}"
+                ><i class="fa fa-pencil"></i
+              ></a>
+              <a href="/dashboard/delete_member/{{f.id}}"
+                ><i class="fa fa-trash"></i
+              ></a>
+            </td>
+          </tr>
+          {%endfor%}
+        </table>
+        <div>
+          {%for page in paginator.page_range%}
+          <a href="?page={{page}}&search={{request.GET.search}}"> {{page}} </a>
+          {%endfor%}
+        </div>
+        <div>
+          <a href="/dashboard/add_team_member/"
+              ><button style="float: right" class="bug-button">
+            Add Member
+            
+          </button>
+        </a>
+        </div>
+      </div>
+       </div>
+ </main>
+ 
 {%endblock%}
