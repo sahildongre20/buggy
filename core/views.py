@@ -5,6 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
+from django.shortcuts import render
 
 from core.forms import AddBugForm, TeamMemberForm, UpdateBugForm
 from core.models import Bug, User
@@ -16,6 +17,9 @@ def isAdmin(user):
 
 def isTeamMember(user):
     return user.role == 'TM'
+
+# def index(request):
+#     return render(request,'index.html');
 
 
 class OnlyProjectOwnerAccessibleMixin(LoginRequiredMixin):
