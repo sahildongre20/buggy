@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
 from .models import Bug, Project, User
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 
 class TeamMemberForm(UserCreationForm):
@@ -20,9 +21,11 @@ class TeamMemberForm(UserCreationForm):
     def save(self, commit=True):
         new_member = self.instance
         password = self.cleaned_data["password1"]
-        content = f" hey {new_member.full_name} you have been added as {new_member.get_role_display()} in {new_member.assigned_to} project , here are your login details\n username :  {new_member.username} \n password :  {password}"
+        print(self.instance.assigned_to)
+        content = render_to_string('new_user_mail_template.html', {
+                                   'new_member': new_member, 'password': password, 'project': new_member.assigned_to})
         send_mail("Login Details for Bug Predictor", content,
-                  "admin@bugpredictor.tech", [new_member.email])
+                  "admin@bugpredictor.tech", [new_member.email], html_message=content)
 
         return super().save(commit)
 
