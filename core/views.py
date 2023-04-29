@@ -1,16 +1,20 @@
 
 import json
+
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import PermissionDenied
-from django.views.generic import TemplateView
+from django.db.models import Count
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import FormView, TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
-from django.shortcuts import render
 
 from core.forms import AddBugForm, TeamMemberForm, UpdateBugForm
-from core.models import Bug, User, SEVERITY_MAP, SEVERITY_CHOICES
-from django.db.models import Count
+from core.models import SEVERITY_CHOICES, SEVERITY_MAP, Bug, User
 
 
 def isAdmin(user):
@@ -41,8 +45,32 @@ class UserLoginView(LoginView):
         return '/dashboard'
 
 
+class ChangePasswordView(FormView):
+    form_class = PasswordChangeForm
+    template_name = 'change_password.html'
+    success_url = '/dashboard'
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        self.request.user.isVerified = True
+        self.request.user.save()
+        return response
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
 class GenericDashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'admin-dashboard.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.isVerified:
+            # or whatever your change password URL is
+            return redirect('/change_password')
+
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -17,14 +17,15 @@ from django.contrib import admin
 from django.urls import path
 from core.forms import AddBugForm
 
-from core.views import AddBugView, AddTeamMemberView, BugsListView, DeleteBugView, DeleteTeamMemberView, GenericDashboardView, TeamMembersListView, UpdateBug, UpdateTeamMember, UserLoginView
-from django.contrib.auth.views import LogoutView,TemplateView
+from core.views import AddBugView, AddTeamMemberView, BugsListView, DeleteBugView, ChangePasswordView, DeleteTeamMemberView, GenericDashboardView, TeamMembersListView, UpdateBug, UpdateTeamMember, UserLoginView
+from django.contrib.auth.views import LogoutView, TemplateView
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
     path('login/', UserLoginView.as_view()),
     path('dashboard/', GenericDashboardView.as_view()),
     path('logout/', LogoutView.as_view()),
+    path('change_password', ChangePasswordView.as_view()),
     path('dashboard/add_team_member/', AddTeamMemberView.as_view()),
     path('dashboard/members/', TeamMembersListView.as_view()),
     path('dashboard/update_member/<pk>/', UpdateTeamMember.as_view()),

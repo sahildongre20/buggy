@@ -37,6 +37,7 @@ class User(AbstractUser):
     role = models.CharField(max_length=4, choices=ROLE_CHOICES, null=True)
     assigned_to = models.ForeignKey(
         Project, on_delete=models.PROTECT, null=True, blank=True)
+    isVerified = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
