@@ -140,9 +140,9 @@ th, td {
       <div class="order">
         <div class="head">
           
-          <form  clss="search-box" method="GET" style="margin-bottom: 4%; margin-top: 2%; ">
-            <input class="search" type="text" placeholder="Search" name="search" />
-            <button type="submit" class="bug-button">
+          <form  clss="search-box" method="GET" style="margin-bottom: 4%; margin-top: 2%; " autocomplete="off">
+            <input id="search_text" class="search" type="text" placeholder="Search" name="search"  />
+            <button type="submit" id="search_btn" class="bug-button">
               Search <i class='bx bx-search-alt-2' ></i>
               </button>
               </form>
@@ -189,19 +189,26 @@ th, td {
     {%endfor%}
     </div>
     <div>
+      <a href="/dashboard/add_bug/">
     <button style="float: right" class="bug-button">
 
-      <a href="/dashboard/add_bug/"></a>
+   
       Report Bug
     </button>
-
+  </a>
    
    <div class="head-title">
-      <a href="#" class="btn-download">
+      <a href="#" class="btn-download" onClick='printPDF()'>
           <i class='bx bxs-cloud-download' ></i>
           <span class="text">Download PDF</span>
       </a>
   </div>
+  <div class="head-title">
+    <a href="#" class="btn-download" onClick="downloadCSV()" >
+        <i class='bx bxs-cloud-download' ></i>
+        <span class="text">Download CSV</span>
+    </a>
+</div>
     </div>
   </div> 
           </tbody>
@@ -211,3 +218,90 @@ th, td {
 </main>
 
 {% endblock %}
+{%block script%}
+
+
+      // printing the table as pdf --do not touch
+
+    function printPDF(){
+      
+      var table = document.querySelector("table");
+
+      // Create a new PDF document
+      var doc = new jsPDF();
+  
+      // Add the table to the PDF
+      doc.autoTable({ html: table });
+  
+      const today = new Date();
+
+      // Format the date as yyyy-mm-dd
+      const dateStr = today.toISOString().slice(0, 10);
+      
+      // Save the PDF with today's date appended to the name
+      doc.save(`bug_data_${dateStr}.pdf`);
+      
+    }
+
+function downloadCSV(){
+  var table = document.querySelector('table');
+
+  // initialize the CSV string
+  var csvString = '';
+
+  // loop through the table rows and cells to extract data
+  var rows = table.rows;
+  for (var i = 0; i < rows.length; i++) {
+    var cells = rows[i].cells;
+
+    for (var j = 0; j < cells.length; j++) {
+      // add the cell data to CSV string
+      csvString += cells[j].textContent.replace(',', '') + ',';
+    }
+
+    // add a newline character at the end of each row
+    csvString += '\n';
+  }
+
+  // create a Blob object to hold the CSV data
+  var blob = new Blob([csvString], {
+    type: 'text/csv;charset=utf-8'
+  });
+
+  // create a download link for the CSV file
+  var downloadLink = document.createElement('a');
+  var today = new Date().toLocaleDateString(); // get today's date
+  downloadLink.download = today + "_" + "bugData" + ".csv";
+  downloadLink.href = URL.createObjectURL(blob);
+  downloadLink.click(); // trigger the download
+		
+}
+
+function toCSV(csv, filename) {
+  var csvFile;
+  var downloadLink;
+
+  // CSV file
+  csvFile = new Blob([csv], {type: 'text/csv'});
+
+  // Download link
+  downloadLink = document.createElement('a');
+
+  // File name
+  downloadLink.download = filename;
+
+  // Create a link to the file
+  downloadLink.href = window.URL.createObjectURL(csvFile);
+
+  // Hide download link
+  downloadLink.style.display = 'none';
+
+  // Add the link to DOM
+  document.body.appendChild(downloadLink);
+
+  // Click download link
+  downloadLink.click();
+}
+
+
+{%endblock%}

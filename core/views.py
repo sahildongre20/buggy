@@ -9,7 +9,7 @@ from django.views.generic.list import ListView
 from django.shortcuts import render
 
 from core.forms import AddBugForm, TeamMemberForm, UpdateBugForm
-from core.models import Bug, User
+from core.models import Bug, User, SEVERITY_MAP, SEVERITY_CHOICES
 from django.db.models import Count
 
 
@@ -49,6 +49,9 @@ class GenericDashboardView(LoginRequiredMixin, TemplateView):
 
         context["priority_chart"] = get_priority_chart
         context["severity_chart"] = get_severity_chart
+        context["bug_count"] = Bug.objects.for_user(self.request.user).count()
+        context["tm_count"] = User.objects.for_user(self.request.user).count()
+
         return context
 
 
@@ -100,7 +103,7 @@ class AddBugView(LoginRequiredMixin, CreateView):
 
     def get_initial(self):
 
-        return {"submitted_by": self.request.user}
+        return {"submitted_by": self.request.user, "assigned_to": self.request.user.assigned_to}
 
     def get_form_kwargs(self):
         kwargs = super(AddBugView, self).get_form_kwargs()
@@ -183,31 +186,88 @@ def get_priority_chart():
 
 
 def get_severity_chart():
-    chart1_data = Bug.objects.values(
-        'severity').annotate(count=Count('id'))
+    SEVERITY_COLORS = {
+        'MINOR': 'rgba(255, 193, 207, 0.2)',
+        'NORMAL': 'rgba(207, 232, 255, 0.2)',
+        'MAJOR': 'rgba(255, 226, 193, 0.2)',
+        'CRITICAL': 'rgba(193, 255, 221, 0.2)',
+        'BLOCKER': 'rgba(236, 193, 255, 0.2)'
+    }
+
+    SEVERITY_BORDER_COLORS = {
+        'MINOR': 'rgba(255, 193, 207, 1)',
+        'NORMAL': 'rgba(207, 232, 255, 1)',
+        'MAJOR': 'rgba(255, 226, 193, 1)',
+        'CRITICAL': 'rgba(193, 255, 221, 1)',
+        'BLOCKER': 'rgba(236, 193, 255, 1)'
+    }
+
+    chart1_data = Bug.objects.values('severity').annotate(count=Count('id'))
     labels = [str(d['severity']) for d in chart1_data]
     counts = [d['count'] for d in chart1_data]
+
+    datasets = []
+    for severity in SEVERITY_MAP.values():
+        if severity in labels:
+            index = labels.index(severity)
+            count = counts[index]
+        else:
+            count = 0
+
+        dataset = {
+            'label': severity,
+            'data': [count],
+            'backgroundColor': SEVERITY_COLORS[severity],
+            'borderColor': SEVERITY_BORDER_COLORS[severity],
+            'borderWidth': 1
+        }
+        datasets.append(dataset)
+
     chart1_config = {
         'type': 'bar',
         'data': {
-            'labels': labels,
-            'datasets': [{
-                'label': 'Bug Severity',
-                'data': counts,
-                'backgroundColor': 'rgba(255, 99, 132, 0.2)',
-                'borderColor': 'rgba(255, 99, 132, 1)',
-                'borderWidth': 1
-            }]
+            'labels': [choice[1] for choice in SEVERITY_CHOICES],
+            'datasets':  [
+                {
+                    "label": "Bugs by Severity",
+                    "data": counts,
+                    "backgroundColor": [
+                        "rgba(255, 193, 207, 0.7)",
+                        "rgba(207, 232, 255, 0.7)",
+                        "rgba(255, 226, 193, 0.7)",
+                        "rgba(193, 255, 221, 0.7)",
+                        "rgba(236, 193, 255, 0.7)"
+                    ],
+                    "borderColor": [
+                        "rgba(255, 193, 207, 1)",
+                        "rgba(207, 232, 255, 1)",
+                        "rgba(255, 226, 193, 1)",
+                        "rgba(193, 255, 221, 1)",
+                        "rgba(236, 193, 255, 1)"
+                    ],
+
+                    "borderWidth": 10,
+                    'cubicInterpolationMode': 'monotone'
+
+                }
+            ]
         },
         'options': {
             'scales': {
                 'yAxes': [{
-                    'ticks': {
-                          'beginAtZero': True
-                          }
+
                 }]
+            },
+            'plugins': {
+                'chartJsPlugin3d': {
+                    'enabled': False,
+                    'alpha': 15,
+                    'beta': 0,
+                    'depth': 50
+                }
             }
         }
+
     }
 
     return json.dumps(chart1_config)

@@ -7,7 +7,8 @@ def get_severity(desc):
     req = base_url+"/predict"
     data = {
         "bug_description": desc,
-        	"model_choice" : "nb"}
+        "model_choice": "nb"}
     r = requests.post(url=req, json=data)
     print(r)
-    return r.text
+    # Remove quotes from the response text
+    return r.text.strip('"').rstrip('"')[0:-2]

@@ -37,6 +37,7 @@ class AddBugForm(forms.ModelForm):
                   'priority', 'assigned_to', 'submitted_by',  'project']
         widgets = {
             'submitted_by': forms.HiddenInput()
+
         }
 
     def __init__(self, user,  *args, **kwargs):
@@ -45,7 +46,11 @@ class AddBugForm(forms.ModelForm):
         self.fields['assigned_to'].queryset = User.objects.filter(role='TM')
         self.fields['submitted_by'].queryset = User.objects.filter(id=user.id)
         if(user.role == 'TM'):
-            self.fields['assigned_to'].queryset = User.objects.filter(role='')
+            self.fields['project'].initial = user.assigned_to.id
+            self.fields['assigned_to'].initial = None
+
+            self.fields['assigned_to'].widget.attrs['class'] = "disabled"
+            self.fields['project'].widget.attrs['class'] = "disabled"
 
 
 class UpdateBugForm(forms.ModelForm):
