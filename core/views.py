@@ -66,7 +66,7 @@ class TeamMembersListView(LoginRequiredMixin, ListView):
     context_object_name = "members"
     model = User
     template_name = 'team_members.html'
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         search_item = self.request.GET.get("search")
