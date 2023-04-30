@@ -86,7 +86,7 @@ class GenericDashboardView(LoginRequiredMixin, TemplateView):
 class AddTeamMemberView(OnlyProjectOwnerAccessibleMixin, CreateView):
     form_class = TeamMemberForm
     template_name = "add_team_member.html"
-    success_url = "/dashboard/"
+    success_url = "/dashboard/members/"
 
 
 class TeamMembersListView(LoginRequiredMixin, ListView):
@@ -127,7 +127,7 @@ class DeleteTeamMemberView(OnlyProjectOwnerAccessibleMixin, DeleteView):
 class AddBugView(LoginRequiredMixin, CreateView):
     form_class = AddBugForm
     template_name = "report_bug.html"
-    success_url = "/dashboard/"
+    success_url = "/dashboard/bugs/"
 
     def get_initial(self):
 
