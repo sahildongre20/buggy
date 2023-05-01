@@ -28,6 +28,7 @@
             <td>{{f.get_role_display}}</td>
             <td>{{f.assigned_to}}</td>
       
+            {% if user.is_project_owner%}
             <td>
               <a href="/dashboard/update_member/{{f.id}}"
                 ><i class="fa fa-pencil"></i
@@ -36,6 +37,7 @@
                 ><i class="fa fa-trash"></i
               ></a>
             </td>
+            {%endif%}
           </tr>
           {%endfor%}
         </table>
@@ -44,6 +46,7 @@
           <a href="?page={{page}}&search={{request.GET.search}}"> {{page}} </a>
           {%endfor%}
         </div>
+        {%if user.is_project_owner%}
         <div>
           <a href="/dashboard/add_team_member/"
               ><button style="float: right" class="bug-button">
@@ -52,6 +55,7 @@
           </button>
         </a>
         </div>
+        {%endif%}
       </div>
        </div>
  </main>

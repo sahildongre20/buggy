@@ -56,10 +56,14 @@ class AddBugForm(forms.ModelForm):
 class UpdateBugForm(forms.ModelForm):
     class Meta:
         model = Bug
-        fields = ['status',
+        fields = ['title', 'status',
                   'priority', 'assigned_to']
 
     def __init__(self, user,  *args, **kwargs):
-
         super().__init__(*args, **kwargs)
-        self.fields['assigned_to'].queryset = User.objects.filter(role='TM')
+        self.fields['assigned_to'].queryset = User.objects.filter(
+            role='TM')
+        self.fields['title'].widget.attrs['class'] = "disabled"
+
+        if not user.is_project_owner:
+            del self.fields['assigned_to']
