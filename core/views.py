@@ -4,7 +4,7 @@ import json
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetDoneView, PasswordResetCompleteView, PasswordResetConfirmView
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.shortcuts import redirect, render
@@ -322,3 +322,21 @@ def get_severity_chart():
     }
 
     return json.dumps(chart1_config)
+
+
+# views for authentication and authorizations
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'auth/password_reset.html'
+
+
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'auth/reset_done.html'
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'auth/reset_confirm.html'
+
+
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'auth/reset_complete.html'
