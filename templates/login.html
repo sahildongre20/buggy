@@ -1,33 +1,153 @@
 {%extends 'base2.html'%} {% block content%}
-<div class="row h-100">
-  <div
-    class="col"
-    style="
-      background-color: #333333;
-      height: 100vh;
-      width: 50%;
-      margin-left: -6.9%;
-      position: absolute;
-    "
-  >
-    <div style="margin-top: 35% ; padding-left: 30%;font-weight: 700;">
-      <h1 class="p-5 pb-0 text-white mb-0 " style="font-weight: 700; font-size: 64px;">Bug Tracker</h1>
-    </div>
-  </div>
-  <div
-    class="col p-5 pt-0"
-    style="margin-top: 15%; width: 20%; margin-left: 50%;"
-  >
-    <h2 class="pl-5" 
-    style="font-weight: 400;line-height: 48px; color: #4F4F4F;
-    width: 381px;
-    height: 48px">
-    Authorized Login
-  </h2>
-  <form method="post">
-    {%csrf_token%}
-    <div  class="form-group p-3">
-      <input
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&family=Poppins:wght@400;500;600&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body{
+  margin: 0;
+  padding: 0;
+  background-color: #EEEEEE;
+  height: 100vh;
+  overflow: hidden;
+}
+.center{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 30px 30px 55px rgba(0,0,0,0.4);
+}
+.center h1{
+  text-align: center;
+  padding: 20px 0;
+  border-bottom: 1px solid silver;
+}
+.center form{
+  padding: 0 40px;
+  box-sizing: border-box;
+}
+
+form .txt_field{
+  position: relative;
+  /* border-bottom: 2px solid #adadad; */
+  margin: 30px 0;
+}
+.txt_field input{
+  width: 100%;
+  padding: 0 5px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  background: none;
+  outline: none;
+}
+.txt_field label{
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  /* color: #adadad; */
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  transition: .5s;
+}
+.txt_field span::before{
+  content: '';
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  /* background: #2691d9; */
+  transition: .5s;
+}
+.txt_field input:focus ~ label,
+.txt_field input:valid ~ label{
+  top: -5px;
+  /* color: #2691d9; */
+}
+.txt_field input:focus ~ span::before,
+.txt_field input:valid ~ span::before{
+  width: 100%;
+}
+.pass{
+  margin: -5px 0 20px 5px;
+  /* color: #a6a6a6; */
+  cursor: pointer;
+}
+.pass:hover{
+  text-decoration: underline;
+}
+input[type="submit"]{
+  width: 100%;
+  height: 50px;
+  border: 1px solid;
+  /* background: #2691d9; */
+  border-radius: 25px;
+  font-size: 18px;
+  /* color: #e9f4fb; */
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+.signup_link{
+  margin: 30px 0;
+  text-align: center;
+  font-size: 16px;
+  /* color: #666666; */
+}
+.signup_link a{
+  /* color: #2691d9; */
+  text-decoration: none;
+}
+.signup_link a:hover{
+  text-decoration: underline;
+}
+.bug-button{
+     width: 120px;
+     height: 35px;
+     color: white;
+     background-color: #3C91E6;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     font-style: normal;
+  }
+  .bug-button:hover{
+   color: #3C91E6;
+   background-color: white;
+   transition: 0.20s;
+   border-color: #3C91E6;
+   border-style: solid;
+  }
+ .bug-button:active{
+   opacity: 0.3;
+   transition: 0.20s;
+
+   
+ }
+</style>
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="center">
+      <h1>Authorized Login</h1>
+      <form method="post">
+      {%csrf_token%}
+        <div class="txt_field">
+          <input
       style="height: 56px;border-radius: 10px;background-color: #EFF0F6; border: none;"
       class="form-control"
         type="text"
@@ -40,54 +160,50 @@
         placeholder="Username"
         id="id_username"
       />
-    </div  class="form-group">
-    <div class="p-3">
+        </div>
+        <div class="txt_field">
+          <input
+          style="height: 56px;border-radius: 10px; background-color: #EFF0F6;border: none;"
+          class="form-control"
+            type="password"
+            name="password"
+            autocomplete="current-password"
+            required
+            placeholder="Password"
+            id="id_password"
+          />
+        </div>
+        <div class="pass">  <a href="/password_reset" style="text-decoration: none; margin-left: 80px;"> Forgot password?</a></div>
+        <input  
+      class="form-control login-btn bug-button"
    
-      <input
-      style="height: 56px;border-radius: 10px; background-color: #EFF0F6;border: none;"
-      class="form-control"
-        type="password"
-        name="password"
-        autocomplete="current-password"
-        required
-        placeholder="Password"
-        id="id_password"
-      />
-    </div>
-    <div class="form-group p-3">
-      <input  style="
-      background-color: #333333;
-      border-radius: 10px;
-      
-      color: white;
-    
-      height : 56px;"
-      class="btn mt-1 form-control"
-      type="submit" name="submit" value="Login" />
-    </div>
-    <div>
+     type="submit" name="submit" style=" border-radius: 5px;  " value="Login" />
+        <div class="signup_link">
+         
+        </div>
+
+        <div>
 
    
-    {% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
-            <div class="alert alert-danger">
-                <strong>{{ error|escape }}</strong>
-            </div>
-        {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-        </div>
-    {% endfor %}
-{% endif %}
-</div>
-<div>
-  <a href="/password_reset">Forgot password?</a>
-</div>
-  </form>
-  </div>
-</div>
+          {% if form.errors %}
+          {% for field in form %}
+              {% for error in field.errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+              <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+              </div>
+          {% endfor %}
+      {% endif %}
+      </div>
+      </form>
+    </div>
+
+  </body>
+</html>
 
 {%endblock%}

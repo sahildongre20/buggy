@@ -34,7 +34,7 @@ urlpatterns = [
     path('dashboard/', GenericDashboardView.as_view()),
     path('logout/', LogoutView.as_view()),
     path('change_password', ChangePasswordView.as_view()),
-    path('profile', UserProfileView.as_view()),
+    path('dashboard/profile', UserProfileView.as_view()),
     path('dashboard/add_team_member/', AddTeamMemberView.as_view()),
     path('dashboard/members/', TeamMembersListView.as_view()),
     path('dashboard/update_member/<pk>/', UpdateTeamMember.as_view()),

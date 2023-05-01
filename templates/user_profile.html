@@ -44,13 +44,19 @@
     width: 100%;
     padding: 10px;
     border-radius: 5px;
+    margin: 20px 0 20px 0;
   }
   select {
     width: 100%;
     border-radius: 5px;
     max-width: 500px;
+    margin: 20px 0 20px 0;
     display: block;
     padding: 10px;
+  }
+  .cp-btn{
+    height: 36px;
+    padding: 6px;
   }
 </style>
 <main>
@@ -76,8 +82,9 @@
           <label for="{{ form.assigned_to.id_for_label }}">Assigned To:</label>
           {{ form.assigned_to }}
         </div>
-        <button type="submit">Save</button>
-        <a href="/change_password">Change Password</a>
+        <br>
+        <button type="submit" class="bug-button">Save</button>
+        <a href="/change_password" class="bug-button cp-btn">Change Password</a>
       </form>
     </div>
   </div>
