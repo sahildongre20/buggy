@@ -1,0 +1,114 @@
+.bug-button{
+    width: 120px;
+    height: 35px;
+    color: white;
+    background-color: #3C91E6;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-style: normal;
+ }
+ .bug-button:hover{
+  color: #3C91E6;
+  background-color: white;
+  transition: 0.20s;
+  border-color: #3C91E6;
+  border-style: solid;
+ }
+.bug-button:active{
+  opacity: 0.3;
+  transition: 0.20s;
+  
+}
+.search{
+  height: 35px;
+  padding-left: 10px;
+  border: #3C91E6 solid;
+  border-radius: 5px;
+  
+
+}
+textarea{
+ width: 100%;
+ height: 80px;
+ padding: 10px;
+ border-radius: 5px;
+}
+input{
+ width: 100%;
+ padding: 10px;
+ border-radius: 5px;
+ margin: 20px 0 20px 0;
+}
+select{
+ width: 100%;
+ border-radius: 5px;
+ padding: 10px;
+ max-width: 500px;
+ display: block;
+ margin: 20px 0 20px 0;
+
+}
+.search{
+    height: 35px;
+    padding-left: 10px;
+    border: #3C91E6 solid;
+    border-radius: 5px;
+  }
+  td{
+    max-width: 50px;
+  }
+  tr{
+    border:2px #3C91E6 solid ;
+    margin-left: 10px;
+  
+    padding: 2px;
+    
+  }
+  thead{
+    background-color: #3C91E6;
+    color: white;
+    
+  
+  }
+  table td+ td{
+    border-left:2px #3C91E6 solid ;
+  }
+  
+  th, td {
+    padding: 15px;
+  }
+  .id-w{
+    width: 30px;
+  }
+  td{
+    max-width: 50px;
+    text-align: center;
+    
+  }
+  tr{
+    border:2px #3C91E6 solid ;
+    margin-left: 10px;
+    text-align: center;
+
+  
+    
+  }
+  thead{
+    background-color: #3C91E6;
+    color: white;
+    text-align: center;
+  }
+
+  table td+ td{
+    border-left:2px #3C91E6 solid ;
+  }
+  .cp-btn{
+    height: 36px;
+    padding: 6px;
+  }
+  .readonly {
+    background-color: #f9f9f9;
+    color: #555;
+    pointer-events: none;
+  }

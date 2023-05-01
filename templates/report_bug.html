@@ -1,72 +1,8 @@
 {%extends 'dashboard.html'%} {%block content%}
-<!-- <div class="container">
-  <h1>Report New Bug</h1>
-  <div class="p-4">
-    <form method="post">
-      {% csrf_token %}
-      <table>
-        {{ form.as_p }}
-        <tr>
-          <td></td>
-          <td><input type="submit" name="submit" value="Save" /></td>
-        </tr>
-      </table>
-    </form>
-  </div>
-</div> -->
 
-<style>
-  .disabled {
-    pointer-events: none;
-    opacity: 0.5;
-  }
-  .bug-button {
-    width: 120px;
-    height: 35px;
-    color: white;
-    background-color: #3c91e6;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-style: normal;
-  }
-  .bug-button:hover {
-    color: #3c91e6;
-    background-color: white;
-    transition: 0.2s;
-    border-color: #3c91e6;
-    border-style: solid;
-  }
-  .bug-button:active {
-    opacity: 0.3;
-    transition: 0.2s;
-  }
-  .search {
-    height: 35px;
-    padding-left: 10px;
-    border: #3c91e6 solid;
-    border-radius: 5px;
-  }
-  textarea {
-    width: 100%;
-    height: 80px;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  input {
-    width: 100%;
-    padding: 10px;
-    margin: 20px 0 20px 0;
-    border-radius: 5px;
-  }
-  select {
-    width: 100%;
-    border-radius: 5px;
-    max-width: 500px;
-    display: block;
-    padding: 10px;
-  }
-</style>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'stylesheets/style.css' %}" />
 <main>
   <h1>Report Bug</h1>
   <div class="table-data">

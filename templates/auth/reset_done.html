@@ -1,84 +1,12 @@
 {% extends 'base.html' %} {% block content %}
-
-
-
-
-<style>
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-body{
-  margin: 0;
-  padding: 0;
-  background-color: #EEEEEE;
-  height: 100vh;
-  overflow: hidden;
-}
-.center{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 30px 30px 55px rgba(0,0,0,0.4);
-}
-.center h2{
-  text-align: center;
-  padding: 20px 0;
-  border-bottom: 1px solid silver;
-}
-.center form{
-  padding: 0 40px;
-  box-sizing: border-box;
-}
-
-
-.bug-button{
-     width: 120px;
-     height: 45px;
-     color: white;
-     background-color: #3C91E6;
-     border: none;
-     border-radius: 5px;
-     width: 100%; 
-     border-radius: 5px; 
-     cursor: pointer;
-    margin: 0px 0 30px 0;
-
-     font-style: normal;
-  }
-  .bug-button:hover{
-   color: #3C91E6;
-   background-color: white;
-   transition: 0.20s;
-   border-color: #3C91E6;
-   border-style: solid;
-  }
- .bug-button:active{
-   opacity: 0.3;
-   transition: 0.20s;   
- }
- input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0 10px 0;
-    border-radius: 5px;
-  }
-  p{
-    padding: 20px;
-  }
-</style>
+{% load static %}
+<link rel="stylesheet" href="{% static 'stylesheets/login.css' %}" />
 <!DOCTYPE html>
 <!-- Coding By CodingNepal - youtube.com/codingnepal -->
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css">
+
   </head>
   <body>
     <div class="center">
