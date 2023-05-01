@@ -32,15 +32,17 @@
         <span class="text">Team</span>
       </a>
     </li>
+    {% if user.is_project_owner%}
     <li>
       <a href="/dashboard/add_team_member/">
         <i class="bx bx-user-plus"></i>
         <span class="text">Add Team Member</span>
       </a>
     </li>
+    {%endif%}
     <li>
       <a href="/dashboard/profile">
-        <i class='bx bxs-user-account'></i>
+        <i class="bx bxs-user-account"></i>
         <span class="text">User Profile</span>
       </a>
     </li>
