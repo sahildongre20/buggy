@@ -107,6 +107,29 @@ class TeamMembersListView(LoginRequiredMixin, ListView):
         return team_members
 
 
+class UserProfileView(LoginRequiredMixin, UpdateView):
+    model = User
+    template_name = "user_profile.html"
+    success_url = "/profile"
+
+    fields = [
+        "full_name",
+        "email",
+        "role",
+        "assigned_to"
+    ]
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        # set the readonly attribute for fields you want to be read-only
+        form.fields['role'].widget.attrs['class'] = 'readonly'
+        form.fields['assigned_to'].widget.attrs['class'] = 'readonly'
+        return form
+
+    def get_object(self):
+        return self.request.user
+
+
 class UpdateTeamMember(OnlyProjectOwnerAccessibleMixin, UpdateView):
     model = User
     fields = [

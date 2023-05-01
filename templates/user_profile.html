@@ -1,0 +1,85 @@
+{%extends 'dashboard.html'%} {%block content%}
+
+<style>
+  .readonly {
+    background-color: #f9f9f9;
+    color: #555;
+    pointer-events: none;
+  }
+
+  .bug-button {
+    width: 120px;
+    height: 35px;
+    color: white;
+    background-color: #3c91e6;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-style: normal;
+  }
+  .bug-button:hover {
+    color: #3c91e6;
+    background-color: white;
+    transition: 0.2s;
+    border-color: #3c91e6;
+    border-style: solid;
+  }
+  .bug-button:active {
+    opacity: 0.3;
+    transition: 0.2s;
+  }
+  .search {
+    height: 35px;
+    padding-left: 10px;
+    border: #3c91e6 solid;
+    border-radius: 5px;
+  }
+  textarea {
+    width: 100%;
+    height: 80px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  select {
+    width: 100%;
+    border-radius: 5px;
+    max-width: 500px;
+    display: block;
+    padding: 10px;
+  }
+</style>
+<main>
+  <h1>User Profile</h1>
+  <div class="table-data">
+    <div class="order">
+      <div class="head"></div>
+      <form method="post">
+        {% csrf_token %}
+        <div>
+          <label for="{{ form.full_name.id_for_label }}">Full Name:</label>
+          {{ form.full_name }}
+        </div>
+        <div>
+          <label for="{{ form.email.id_for_label }}">Email:</label>
+          {{ form.email }}
+        </div>
+        <div>
+          <label for="{{ form.role.id_for_label }}">Role:</label>
+          {{ form.role }}
+        </div>
+        <div>
+          <label for="{{ form.assigned_to.id_for_label }}">Assigned To:</label>
+          {{ form.assigned_to }}
+        </div>
+        <button type="submit">Save</button>
+        <a href="/change_password">Change Password</a>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock %}

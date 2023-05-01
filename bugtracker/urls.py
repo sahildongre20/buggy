@@ -14,11 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from core.forms import AddBugForm
-
-from core.views import AddBugView, AddTeamMemberView, BugsListView, DeleteBugView, ChangePasswordView, DeleteTeamMemberView, GenericDashboardView, TeamMembersListView, UpdateBug, UpdateTeamMember, UserLoginView
 from django.contrib.auth.views import LogoutView, TemplateView
+from django.urls import path
+
+from core.forms import AddBugForm
+from core.views import (AddBugView, AddTeamMemberView, BugsListView,
+                        ChangePasswordView, DeleteBugView,
+                        DeleteTeamMemberView, GenericDashboardView,
+                        TeamMembersListView, UpdateBug, UpdateTeamMember,
+                        UserLoginView, UserProfileView)
+
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
@@ -26,6 +31,7 @@ urlpatterns = [
     path('dashboard/', GenericDashboardView.as_view()),
     path('logout/', LogoutView.as_view()),
     path('change_password', ChangePasswordView.as_view()),
+    path('profile', UserProfileView.as_view()),
     path('dashboard/add_team_member/', AddTeamMemberView.as_view()),
     path('dashboard/members/', TeamMembersListView.as_view()),
     path('dashboard/update_member/<pk>/', UpdateTeamMember.as_view()),
