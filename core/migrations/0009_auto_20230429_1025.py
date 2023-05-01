@@ -42,7 +42,7 @@ def add_initial_data(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('core', '0008_alter_bug_severity'),
+        ('core', '0010_user_isverified'),
     ]
 
     operations = [
