@@ -1,12 +1,15 @@
+import datetime
 from operator import mod
 from pydoc import describe
 from django.contrib.auth.models import UserManager
 from statistics import mode
 from turtle import title
 from django.db import models
+import base64
 from django.db.models import Q
 from django.contrib.auth.models import AbstractUser
 from .prediction import get_severity
+from django.core.files.base import ContentFile
 # Create your models here.
 ROLE_CHOICES = [('TL', 'Team Lead'), ('TM', 'Team Member'),
                 ('O', 'Project Owner')]
@@ -95,3 +98,8 @@ class Bug(models.Model):
             get_severity(self.description))
         print(SEVERITY_MAP.get(get_severity(self.description)))
         super(Bug, self).save(*args, **kwargs)
+
+
+class BugMedia(models.Model):
+    bug = models.ForeignKey(Bug, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='media')

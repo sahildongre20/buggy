@@ -4,6 +4,12 @@ from django import forms
 from .models import Bug, Project, User
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.forms import ModelMultipleChoiceField
+from .models import Bug, BugMedia
+from django.core.files.base import ContentFile
+import base64
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from io import BytesIO
 
 
 class TeamMemberForm(UserCreationForm):
@@ -31,12 +37,16 @@ class TeamMemberForm(UserCreationForm):
 
 
 class AddBugForm(forms.ModelForm):
+    files = forms.FileField(widget=forms.ClearableFileInput(
+        attrs={'multiple': True}), required=False)
+
     class Meta:
         model = Bug
+
         fields = ['title', 'description', 'status',
                   'priority', 'assigned_to', 'submitted_by',  'project']
         widgets = {
-            'submitted_by': forms.HiddenInput()
+            'submitted_by': forms.HiddenInput(),
 
         }
 
@@ -51,6 +61,26 @@ class AddBugForm(forms.ModelForm):
 
             self.fields['assigned_to'].widget.attrs['class'] = "disabled"
             self.fields['project'].widget.attrs['class'] = "disabled"
+
+    def clean(self):
+        cleaned_data = super().clean()
+        files = self.files.getlist('files')
+        for f in files:
+            file_obj = f
+            print('Received file:', file_obj)
+        return cleaned_data
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if commit:
+            instance.save()
+
+        # link uploaded files to this Bug instance
+        files = self.files.getlist('files')
+        for f in files:
+            BugMedia.objects.create(bug=instance, file=f)
+
+        return instance
 
 
 class UpdateBugForm(forms.ModelForm):

@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'django_extensions',
+
 ]
 
 MIDDLEWARE = [
@@ -114,6 +115,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     "/var/www/static/",
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads/')
 
 # STATICFILES_DIRS = [BASE_DIR /"static"]
 # Default primary key field type

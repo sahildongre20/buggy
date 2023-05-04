@@ -12,9 +12,9 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
-
+from django.db.models import Prefetch
 from core.forms import AddBugForm, TeamMemberForm, UpdateBugForm
-from core.models import SEVERITY_CHOICES, SEVERITY_MAP, Bug, User
+from core.models import SEVERITY_CHOICES, SEVERITY_MAP, Bug, User, BugMedia
 
 
 def isAdmin(user):
@@ -154,7 +154,7 @@ class AddBugView(LoginRequiredMixin, CreateView):
 
     def get_initial(self):
 
-        return {"submitted_by": self.request.user, "assigned_to": self.request.user.assigned_to}
+        return {"submitted_by": self.request.user, "assigned_to": None}
 
     def get_form_kwargs(self):
         kwargs = super(AddBugView, self).get_form_kwargs()
@@ -171,11 +171,13 @@ class BugsListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         search_item = self.request.GET.get("search")
 
-        bugs = Bug.objects.for_user(self.request.user)
+        bug_media = Prefetch('bugmedia_set', queryset=BugMedia.objects.all())
+
+        bugs = Bug.objects.for_user(
+            self.request.user).prefetch_related(bug_media)
 
         if search_item:
-            bugs = bugs.filter(
-                title__icontains=search_item)
+            bugs = bugs.filter(title__icontains=search_item)
 
         return bugs
 

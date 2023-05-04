@@ -1,7 +1,4 @@
-{%extends 'dashboard.html'%} {%block content%}
-
-
-{% load static %}
+{%extends 'dashboard.html'%} {%block content%} {% load static %}
 <link rel="stylesheet" href="{% static 'stylesheets/style.css' %}" />
 <main>
   <h1>Report Bug</h1>
@@ -9,7 +6,7 @@
     <div class="order">
       <div class="head"></div>
       <table>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           {% csrf_token %}
           <table>
             {{ form.as_p }}
