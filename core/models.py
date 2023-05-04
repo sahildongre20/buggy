@@ -55,11 +55,14 @@ SEVERITY_CHOICES = [('minor', 'MINOR'), ('normal', 'NORMAL'),
                     ('major', 'MAJOR'), ('critical', 'CRITICAL'), ('blocker', 'BLOCKER')]
 
 SEVERITY_MAP = {
+     "blocker": 'BLOCKER',
+      "critical": 'CRITICAL',
+       "major": 'MAJOR',
     "minor": 'MINOR',
     "normal": 'NORMAL',
-    "major": 'MAJOR',
-    "critical": 'CRITICAL',
-    "blocker": 'BLOCKER',
+   
+   
+   
 }
 
 

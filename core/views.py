@@ -253,31 +253,25 @@ def get_severity_chart():
         'BLOCKER': 'rgba(236, 193, 255, 1)'
     }
 
-    chart1_data = Bug.objects.values('severity').annotate(count=Count('id'))
+    chart1_data = Bug.objects.values('severity').annotate(count=Count('id')).order_by('severity')
     labels = [str(d['severity']) for d in chart1_data]
     counts = [d['count'] for d in chart1_data]
 
-    datasets = []
-    for severity in SEVERITY_MAP.values():
-        if severity in labels:
-            index = labels.index(severity)
-            count = counts[index]
-        else:
-            count = 0
+    # datasets = []
+    # for severity in SEVERITY_MAP.values():
+    #     index = labels.index(severity)
+    #     if severity in labels:
+            
+    #         counts[index] = counts[index]
+    #     else:
+    #         counts[index] = 0
 
-        dataset = {
-            'label': severity,
-            'data': [count],
-            'backgroundColor': SEVERITY_COLORS[severity],
-            'borderColor': SEVERITY_BORDER_COLORS[severity],
-            'borderWidth': 1
-        }
-        datasets.append(dataset)
+    
 
     chart1_config = {
         'type': 'bar',
         'data': {
-            'labels': [choice[1] for choice in SEVERITY_CHOICES],
+            'labels': labels,
             'datasets':  [
                 {
                     "label": "Bugs by Severity",
