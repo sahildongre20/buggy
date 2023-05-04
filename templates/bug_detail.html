@@ -1,0 +1,44 @@
+{% extends 'dashboard.html' %} {% block content %}
+<h1>{{ object.title }}</h1>
+<p>{{ object.description }}</p>
+<p>Status: {{ object.status }}</p>
+<p>Added date: {{ object.added_date }}</p>
+<p>Assigned to: {{ object.assigned_to }}</p>
+<p>Submitted by: {{ object.submitted_by }}</p>
+<p>Project: {{ object.project }}</p>
+<p>Priority: {{ object.priority }}</p>
+<p>Severity: {{ object.severity }}</p>
+
+<!-- Display the media files -->
+{% if media_files %}
+<h2>ScreenShots/Log files</h2>
+<ul>
+  {% for media in media_files %}
+  <li><a href="{{ media.file.url }}">{{ media.file.name }}</a></li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<!-- Display the comments -->
+{% if comments %}
+<h2>Comments:</h2>
+<ul>
+  {% for comment in comments %}
+  <li>
+    <p><strong>{{ comment.by }}:</strong> {{ comment.text }}</p>
+    <p class="small">{{ comment.date_added }}</p>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<!-- Display the comment form -->
+{% if user.is_authenticated %}
+<h2>Add a Comment:</h2>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Add Comment</button>
+</form>
+{% else %}
+<p>You need to <a href="{% url 'login' %}">login</a> to add comments.</p>
+{% endif %} {% endblock %}

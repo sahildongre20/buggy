@@ -17,38 +17,62 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView, TemplateView
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 
 from core.forms import AddBugForm
-from core.views import (AddBugView, AddTeamMemberView, BugsListView,
-                        ChangePasswordView, CustomPasswordResetConfirmView,
-                        CustomPasswordResetDoneView, CustomPasswordResetView,
-                        DeleteBugView, DeleteTeamMemberView,
-                        GenericDashboardView, TeamMembersListView, UpdateBug,
-                        UpdateTeamMember, UserLoginView, UserProfileView,
-                        CustomPasswordResetCompleteView)
+from core.views import (
+    AddBugView,
+    AddTeamMemberView,
+    BugsListView,
+    ChangePasswordView,
+    CustomPasswordResetConfirmView,
+    CustomPasswordResetDoneView,
+    CustomPasswordResetView,
+    DeleteBugView,
+    DeleteTeamMemberView,
+    GenericDashboardView,
+    TeamMembersListView,
+    UpdateBug,
+    UpdateTeamMember,
+    UserLoginView,
+    UserProfileView,
+    CustomPasswordResetCompleteView,
+    BugDetailView,
+)
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html')),
-    path('admin/', admin.site.urls),
-    path('login/', UserLoginView.as_view()),
-    path('dashboard/', GenericDashboardView.as_view()),
-    path('logout/', LogoutView.as_view()),
-    path('change_password', ChangePasswordView.as_view()),
-    path('dashboard/profile', UserProfileView.as_view()),
-    path('dashboard/add_team_member/', AddTeamMemberView.as_view()),
-    path('dashboard/members/', TeamMembersListView.as_view()),
-    path('dashboard/update_member/<pk>/', UpdateTeamMember.as_view()),
-    path('dashboard/delete_member/<pk>/',  DeleteTeamMemberView.as_view()),
-    path('dashboard/add_bug/', AddBugView.as_view()),
-    path('dashboard/bugs/', BugsListView.as_view()),
-    path('dashboard/update_bug/<pk>', UpdateBug.as_view()),
-    path('dashboard/delete_bug/<pk>', DeleteBugView.as_view()),
+    path("", TemplateView.as_view(template_name="index.html")),
+    path("admin/", admin.site.urls),
+    path("login/", UserLoginView.as_view()),
+    path("dashboard/", GenericDashboardView.as_view()),
+    path("logout/", LogoutView.as_view()),
+    path("change_password", ChangePasswordView.as_view()),
+    path("dashboard/profile", UserProfileView.as_view()),
+    path("dashboard/add_team_member/", AddTeamMemberView.as_view()),
+    path("dashboard/members/", TeamMembersListView.as_view()),
+    path("dashboard/update_member/<pk>/", UpdateTeamMember.as_view()),
+    path("dashboard/delete_member/<pk>/", DeleteTeamMemberView.as_view()),
+    path("dashboard/add_bug/", AddBugView.as_view()),
+    path("dashboard/bugs/", BugsListView.as_view()),
+    path("dashboard/bugs/<pk>", BugDetailView.as_view(), name=""),
+    path("dashboard/update_bug/<pk>", UpdateBug.as_view()),
+    path("dashboard/delete_bug/<pk>", DeleteBugView.as_view()),
     # other urls
-    path('password_reset/', CustomPasswordResetView.as_view()),
-    path('password_reset/done/', CustomPasswordResetDoneView.as_view(),
-         name='password_reset_done'),
-    path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(),
-         name='password_reset_confirm'),
-    path('reset/done/', CustomPasswordResetCompleteView.as_view(),
-         name='password_reset_complete'),
-]
+    path("password_reset/", CustomPasswordResetView.as_view()),
+    path(
+        "password_reset/done/",
+        CustomPasswordResetDoneView.as_view(),
+        name="password_reset_done",
+    ),
+    path(
+        "reset/<uidb64>/<token>/",
+        CustomPasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
+    path(
+        "reset/done/",
+        CustomPasswordResetCompleteView.as_view(),
+        name="password_reset_complete",
+    ),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
