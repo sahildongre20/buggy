@@ -1,10 +1,22 @@
 {%extends 'dashboard.html'%} {% block content %}
-
-<div>
+{% load static %}
+<link rel="stylesheet" href="{% static 'stylesheets/style.css' %}" />
+<style>
+  .cb{
+    width: 100%;
+  }
+</style>
+<main>
+<div class="table-data">
+  <div class="order">
+  
   <form method="post">
     {%csrf_token%}
     <p>Are you sure you want to delete Bug "<span>{{object.title}}</span>" ?</p>
-    <input type="submit" value="Confirm" />
+    <input type="submit" class="bug-button cb" value="Confirm" />
   </form>
+  </div>
+  </div>
 </div>
+</main>
 {% endblock %}
