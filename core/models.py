@@ -122,6 +122,9 @@ class Bug(models.Model):
         print(SEVERITY_MAP.get(get_severity(self.description)))
         super(Bug, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{self.title}"
+
 
 @deconstructible
 class FileExtensionValidator:

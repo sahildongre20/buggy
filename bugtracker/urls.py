@@ -1,18 +1,3 @@
-"""bugtracker URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import LogoutView, TemplateView
@@ -43,25 +28,41 @@ from core.views import (
 )
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="index.html")),
+    path("", TemplateView.as_view(template_name="index.html"), name="index"),
     path("admin/", admin.site.urls),
-    path("login/", UserLoginView.as_view()),
-    path("dashboard/", GenericDashboardView.as_view()),
-    path("logout/", LogoutView.as_view()),
-    path("change_password", ChangePasswordView.as_view()),
-    path("dashboard/profile", UserProfileView.as_view()),
-    path("dashboard/add_team_member/", AddTeamMemberView.as_view()),
-    path("dashboard/members/", TeamMembersListView.as_view()),
-    path("dashboard/update_member/<pk>/", UpdateTeamMember.as_view()),
-    path("dashboard/delete_member/<pk>/", DeleteTeamMemberView.as_view()),
-    path("dashboard/add_bug/", AddBugView.as_view()),
-    path("dashboard/bugs/", BugsListView.as_view()),
-    path("dashboard/bugs/<pk>", BugDetailView.as_view(), name=""),
-    path("dashboard/update_bug/<pk>", UpdateBug.as_view()),
-    path("dashboard/delete_bug/<pk>", DeleteBugView.as_view()),
-    path("register/", ProjectOwnerRegistrationView.as_view()),
+    path("login/", UserLoginView.as_view(), name="login"),
+    path("dashboard/", GenericDashboardView.as_view(), name="dashboard"),
+    path("logout/", LogoutView.as_view(), name="logout"),
+    path("change_password", ChangePasswordView.as_view(), name="change_password"),
+    path("dashboard/profile", UserProfileView.as_view(), name="profile"),
+    path(
+        "dashboard/add_team_member/",
+        AddTeamMemberView.as_view(),
+        name="add_team_member",
+    ),
+    path("dashboard/members/", TeamMembersListView.as_view(), name="team_members_list"),
+    path(
+        "dashboard/update_member/<pk>/",
+        UpdateTeamMember.as_view(),
+        name="update_team_member",
+    ),
+    path(
+        "dashboard/delete_member/<pk>/",
+        DeleteTeamMemberView.as_view(),
+        name="delete_team_member",
+    ),
+    path("dashboard/add_bug/", AddBugView.as_view(), name="add_bug"),
+    path("dashboard/bugs/", BugsListView.as_view(), name="bugs_list"),
+    path("dashboard/bugs/<pk>", BugDetailView.as_view(), name="bug_detail"),
+    path("dashboard/update_bug/<pk>", UpdateBug.as_view(), name="update_bug"),
+    path("dashboard/delete_bug/<pk>", DeleteBugView.as_view(), name="delete_bug"),
+    path(
+        "register/",
+        ProjectOwnerRegistrationView.as_view(),
+        name="project_owner_registration",
+    ),
     # other urls
-    path("password_reset/", CustomPasswordResetView.as_view()),
+    path("password_reset/", CustomPasswordResetView.as_view(), name="password_reset"),
     path(
         "password_reset/done/",
         CustomPasswordResetDoneView.as_view(),

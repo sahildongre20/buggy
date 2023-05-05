@@ -144,3 +144,6 @@ GRAPH_MODELS = {
     "all_applications": True,
     "graph_models": True,
 }
+
+
+AUTH_USER_MODEL = "core.User"
