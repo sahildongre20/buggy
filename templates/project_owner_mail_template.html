@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>New project registered on BugPredictor</title>
+    <style>
+      body {
+        background-color: #f5f5f5;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .logo {
+        display: block;
+        margin: 0 auto 20px;
+        width: 200px;
+      }
+
+      .title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .content {
+        margin-bottom: 20px;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      ul li {
+        margin-bottom: 10px;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn:hover {
+        background-color: #0062cc;
+      }
+    </style>
+  </head>
+  <body>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+      <tr>
+        <td style="background-color: #f5f5f5; padding: 20px">
+          <table
+            cellpadding="0"
+            cellspacing="0"
+            border="0"
+            align="center"
+            width="600"
+          >
+            <tr>
+              <td>
+                <svg
+                  width="200"
+                  height="50"
+                  viewBox="0 0 200 50"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>BugPredictor</title>
+                  <rect x="0" y="0" width="200" height="50" fill="#4a4a4a" />
+                  <text
+                    x="25"
+                    y="34"
+                    font-family="Arial"
+                    font-size="24"
+                    fill="#ffffff"
+                  >
+                    BugPredictor
+                  </text>
+                </svg>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>Dear {{ owner.full_name }},</p>
+                <p>
+                  Thank you for registering your project "{{ project_name }}" on
+                  BugPredictor.
+                </p>
+                <p>Here are the details of your project:</p>
+                <ul>
+                  <li>Project Name: {{ project_name }}</li>
+                  <li>Project Description: {{ project_description }}</li>
+                </ul>
+                <p>Please log in to your account to manage your project.</p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
