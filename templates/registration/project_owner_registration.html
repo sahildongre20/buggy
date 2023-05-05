@@ -1,0 +1,34 @@
+{% extends 'base.html' %} {% block content %}
+<h1>User Registration Form</h1>
+<div class="flex justify-center items-center h-screen">
+  <div class="max-w-md w-full px-6 py-8 bg-white shadow-md">
+    <form method="post">
+      {% csrf_token %}
+      <label for="{{ form.email.id_for_label }}">Email:</label>
+      {{ form.email }}
+      <br />
+      <label for="{{ form.username.id_for_label }}">Username:</label>
+      {{ form.username }}
+      <br />
+      <label for="{{ form.password1.id_for_label }}">Password:</label>
+      {{ form.password1 }}
+      <br />
+      <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+      {{ form.password2 }}
+      <br />
+      <label for="{{ form.full_name.id_for_label }}">Full Name:</label>
+      {{ form.full_name }}
+      <br />
+      <label for="{{ form.project_name.id_for_label }}">Project Name:</label>
+      {{ form.project_name }}
+      <br />
+      <label for="{{ form.project_description.id_for_label }}"
+        >Project Description:</label
+      >
+      {{ form.project_description }}
+      <br />
+      <input type="submit" value="Register" />
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -21,7 +21,12 @@ from django.views.generic import FormView, TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormMixin
 from django.views.generic.list import ListView
 from django.db.models import Prefetch
-from core.forms import AddBugForm, TeamMemberForm, UpdateBugForm
+from core.forms import (
+    AddBugForm,
+    TeamMemberForm,
+    UpdateBugForm,
+    ProjectOwnerRegistrationForm,
+)
 from core.models import SEVERITY_CHOICES, SEVERITY_MAP, Bug, User, BugMedia
 
 
@@ -84,8 +89,8 @@ class GenericDashboardView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context["priority_chart"] = get_priority_chart
-        context["severity_chart"] = get_severity_chart
+        context["priority_chart"] = get_priority_chart(self.request.user)
+        context["severity_chart"] = get_severity_chart(self.request.user)
         context["bug_count"] = Bug.objects.for_user(self.request.user).count()
         context["tm_count"] = User.objects.for_user(self.request.user).count()
 
@@ -97,6 +102,17 @@ class AddTeamMemberView(OnlyProjectOwnerAccessibleMixin, CreateView):
     template_name = "add_team_member.html"
     success_url = "/dashboard/members/"
 
+    def get_form_kwargs(self):
+        kwargs = super(AddTeamMemberView, self).get_form_kwargs()
+        kwargs.update({"user": self.request.user})
+        return kwargs
+
+
+class ProjectOwnerRegistrationView(CreateView):
+    form_class = ProjectOwnerRegistrationForm
+    template_name = "registration/project_owner_registration.html"
+    success_url = "/login"
+
 
 class TeamMembersListView(LoginRequiredMixin, ListView):
     queryset = User.objects.filter(role="TM")
@@ -107,7 +123,7 @@ class TeamMembersListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         search_item = self.request.GET.get("search")
-        team_members = User.objects.filter(role="TM")
+        team_members = User.objects.for_user(self.request.user)
         if search_item:
             team_members = team_members.filter(full_name__icontains=search_item)
 
@@ -263,7 +279,7 @@ class BugDetailView(FormMixin, DetailView):
 # viesew for displaying charts in the dashboard
 
 
-def get_priority_chart():
+def get_priority_chart(user):
     chart1_data = Bug.objects.values("priority").annotate(count=Count("id"))
     labels = [str(d["priority"]) for d in chart1_data]
     counts = [d["count"] for d in chart1_data]
@@ -287,7 +303,7 @@ def get_priority_chart():
     return json.dumps(chart1_config)
 
 
-def get_severity_chart():
+def get_severity_chart(user):
     SEVERITY_COLORS = {
         "MINOR": "rgba(255, 193, 207, 0.2)",
         "NORMAL": "rgba(207, 232, 255, 0.2)",
@@ -304,6 +320,7 @@ def get_severity_chart():
         "BLOCKER": "rgba(236, 193, 255, 1)",
     }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     chart1_data = Bug.objects.values('severity').annotate(count=Count('id')).order_by('severity')
     labels = [str(d['severity']) for d in chart1_data]
@@ -340,11 +357,21 @@ def get_severity_chart():
             "borderWidth": 1,
         }
         datasets.append(dataset)
+=======
+    counts = []
+    # get data for all severities and add them to counts
+    for sev in SEVERITY_CHOICES:
+        counts.append(
+            Bug.objects.filter(severity=sev[1], project=user.assigned_to).count()
+        )
+
+    labels = [choice[1] for choice in SEVERITY_CHOICES]
+>>>>>>> 4105ac97522c6a60ad4bb1d42af5adcbfc9fdaa0
 
     chart1_config = {
         "type": "bar",
         "data": {
-            "labels": [choice[1] for choice in SEVERITY_CHOICES],
+            "labels": labels,
             "datasets": [
 >>>>>>> cf164cc636b3b877c39477a15d8b122758e853d0
                 {
