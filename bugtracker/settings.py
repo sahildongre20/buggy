@@ -81,13 +81,8 @@ WSGI_APPLICATION = "bugtracker.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": os.getenv("ENGINE"),
-        "NAME": os.getenv("NAME"),
-        "USER": os.getenv("USER"),
-        "PASSWORD": os.getenv("PASSWORD"),
-        "HOST": os.getenv("HOST"),
-        "PORT": os.getenv("PORT"),
-        "USER": os.getenv("DB_USER"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -131,19 +126,10 @@ AUTH_USER_MODEL = "core.User"
 LOGOUT_REDIRECT_URL = "/login"
 LOGIN_REDIRECT_URL = "/login"
 LOGIN_URL = "/login"
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.mailgun.org"
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 
 GRAPH_MODELS = {
     "all_applications": True,
     "graph_models": True,
 }
-
-
-AUTH_USER_MODEL = "core.User"
