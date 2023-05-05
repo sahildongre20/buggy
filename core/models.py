@@ -71,22 +71,11 @@ SEVERITY_CHOICES = [
 ]
 
 SEVERITY_MAP = {
-<<<<<<< HEAD
-     "blocker": 'BLOCKER',
-      "critical": 'CRITICAL',
-       "major": 'MAJOR',
-    "minor": 'MINOR',
-    "normal": 'NORMAL',
-   
-   
-   
-=======
     "minor": "MINOR",
     "normal": "NORMAL",
     "major": "MAJOR",
     "critical": "CRITICAL",
     "blocker": "BLOCKER",
->>>>>>> cf164cc636b3b877c39477a15d8b122758e853d0
 }
 
 
