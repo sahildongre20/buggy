@@ -9,19 +9,23 @@
        <div class="order">
          <div class="head">
            
-           <form  clss="search-box" method="GET" style="margin-bottom: 4%; margin-top: 2%; ">
-             <input class="search" type="text" placeholder="Search" name="search" />
-             <button type="submit" class="bug-button">
-               Search <i class='bx bx-search-alt-2' ></i>
-               </button>
-               </form>
+          
          </div>
+         <form  clss="search-box" method="GET" style="margin-bottom: 4%; margin-top: 2%; ">
+          <input class="search" type="text" placeholder="Search" name="search"  style="display: inline;"/>
+          <button type="submit" class="bug-button" style="display: inline;">
+            Search <i class='bx bx-search-alt-2' ></i>
+            </button>
+            </form>
          <table>
+          <thead>
           <tr>
             <th>Name</th>
             <th>Role</th>
             <th>Assigned To</th>
+            <th></th>
           </tr>
+        </thead>
           {%for f in members %}
           <tr style="height: 80px">
             <td>{{f.full_name}}</td>

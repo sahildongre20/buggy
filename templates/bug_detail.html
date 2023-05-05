@@ -1,13 +1,29 @@
 {% extends 'dashboard.html' %} {% block content %}
-<h1>{{ object.title }}</h1>
+{% load static %}
+<link rel="stylesheet" href="{% static 'stylesheets/style.css' %}" />
+<style>
+  p{
+    padding: 10px 0 0 0;
+  }
+  h2{
+    text-transform: capitalize;
+    padding: 10px 0 0 0;
+
+  }
+</style>
+  <main>
+    <div class="table-data">
+      <div class="order">
+        <!-- <div class="head"/> -->
+          <h2>{{ object.title }}</h2>
 <p>{{ object.description }}</p>
-<p>Status: {{ object.status }}</p>
-<p>Added date: {{ object.added_date }}</p>
-<p>Assigned to: {{ object.assigned_to }}</p>
-<p>Submitted by: {{ object.submitted_by }}</p>
-<p>Project: {{ object.project }}</p>
-<p>Priority: {{ object.priority }}</p>
-<p>Severity: {{ object.severity }}</p>
+<p><b>Status:</b> {{ object.status }}</p>
+<p><b>Added date:</b> {{ object.added_date }}</p>
+<p><b>Assigned to:</b> {{ object.assigned_to }}</p>
+<p><b>Submitted by:</b> {{ object.submitted_by }}</p>
+<p><b>Project:</b> {{ object.project }}</p>
+<p><b>Priority:</b> {{ object.priority }}</p>
+<p><b>Severity:</b> {{ object.severity }}</p>
 
 <!-- Display the media files -->
 {% if media_files %}
@@ -37,8 +53,14 @@
 <h2>Add a Comment:</h2>
 <form method="post">
   {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Add Comment</button>
+  <button type="submit" class="bug-button">Add Comment</button>
 </form>
 {% else %}
 <p>You need to <a href="{% url 'login' %}">login</a> to add comments.</p>
 {% endif %} {% endblock %}
+
+         
+         </div>
+      </div>
+    </div>
+</main>
