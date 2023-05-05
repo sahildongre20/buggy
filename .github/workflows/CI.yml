@@ -22,7 +22,7 @@ jobs:
           pip install -r requirements.txt
       - name: Run tests with coverage
         env:
-          DJANGO_SETTINGS_MODULE: "bugtracker.settings.local"
+          DJANGO_SETTINGS_MODULE: "bugtracker.settings"
         run: coverage run manage.py test
       - name: Generate coverage report
         run: coverage report
