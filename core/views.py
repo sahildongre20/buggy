@@ -21,7 +21,12 @@ from django.views.generic import FormView, TemplateView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormMixin
 from django.views.generic.list import ListView
 from django.db.models import Prefetch
-from core.forms import AddBugForm, TeamMemberForm, UpdateBugForm
+from core.forms import (
+    AddBugForm,
+    TeamMemberForm,
+    UpdateBugForm,
+    ProjectOwnerRegistrationForm,
+)
 from core.models import SEVERITY_CHOICES, SEVERITY_MAP, Bug, User, BugMedia
 
 
@@ -96,6 +101,19 @@ class AddTeamMemberView(OnlyProjectOwnerAccessibleMixin, CreateView):
     form_class = TeamMemberForm
     template_name = "add_team_member.html"
     success_url = "/dashboard/members/"
+
+
+class ProjectOwnerRegistrationView(LoginRequiredMixin, CreateView):
+    form_class = ProjectOwnerRegistrationForm
+    template_name = "registration/project_owner_registration.html"
+    success_url = "/login"
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = form.save()
+        project = user.assigned_to
+        # Additional logic for creating a team and adding members to the project
+        return response
 
 
 class TeamMembersListView(LoginRequiredMixin, ListView):

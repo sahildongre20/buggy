@@ -52,6 +52,36 @@ class TeamMemberForm(UserCreationForm):
         return super().save(commit)
 
 
+class ProjectOwnerRegistrationForm(UserCreationForm):
+    project_name = forms.CharField(max_length=255)
+    project_description = forms.CharField(widget=forms.Textarea)
+
+    class Meta:
+        model = User
+        fields = ["email", "full_name", "password1", "password2"]
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError(
+                "This email is already taken. Please use a different email."
+            )
+        return email
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.role = "O"
+        if commit:
+            user.save()
+            project = Project.objects.create(
+                name=self.cleaned_data["project_name"],
+                description=self.cleaned_data["project_description"],
+            )
+            user.assigned_to = project
+            user.save()
+        return user
+
+
 class AddBugForm(forms.ModelForm):
     files = forms.FileField(
         widget=forms.ClearableFileInput(attrs={"multiple": True}), required=False

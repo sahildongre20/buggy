@@ -39,6 +39,7 @@ from core.views import (
     UserProfileView,
     CustomPasswordResetCompleteView,
     BugDetailView,
+    ProjectOwnerRegistrationView,
 )
 
 urlpatterns = [
@@ -58,6 +59,7 @@ urlpatterns = [
     path("dashboard/bugs/<pk>", BugDetailView.as_view(), name=""),
     path("dashboard/update_bug/<pk>", UpdateBug.as_view()),
     path("dashboard/delete_bug/<pk>", DeleteBugView.as_view()),
+    path("register/", ProjectOwnerRegistrationView.as_view()),
     # other urls
     path("password_reset/", CustomPasswordResetView.as_view()),
     path(
