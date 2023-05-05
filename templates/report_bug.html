@@ -6,18 +6,54 @@
     <div class="order">
       <div class="head"></div>
       <table>
-        <form method="post" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
-          <table>
-            {{ form.as_p }}
-            <tr></tr>
-            <input
-              class="bug-button"
-              type="submit"
-              name="submit"
-              value="Save"
-            />
-          </table>
+          <div class="form-group">
+            {{ form.title.label_tag }} {{ form.title }}
+          </div>
+          <div class="form-group">
+            {{ form.description.label_tag }} {{ form.description }}
+          </div>
+          <div class="form-group">
+            {{ form.status.label_tag }} {{ form.status }}
+          </div>
+          <div class="form-group">
+            {{ form.priority.label_tag }} {{ form.priority }}
+          </div>
+          <div class="form-group">
+            {{ form.assigned_to.label_tag }} {{ form.assigned_to }}
+          </div>
+          <div class="form-group">
+            {{ form.project.label_tag }} {{ form.project }}
+          </div>
+          <div class="form-check">
+            {{ form.is_predicted }}
+            <label
+              class="form-check-label"
+              for="{{ form.is_predicted.id_for_label }}"
+              >Predict Severity using AI(default is "NORMAL")</label
+            >
+          </div>
+
+          <style>
+            .form-check-label {
+              display: inline-block;
+              vertical-align: middle;
+            }
+            .form-check-input {
+              display: inline-block;
+              width: auto;
+              margin-right: 5px;
+              vertical-align: middle;
+              height: 22px;
+              width: 22px;
+            }
+          </style>
+
+          <div class="form-group">
+            {{ form.files.label_tag }} {{ form.files }}
+          </div>
+          <button type="submit" class="bug-button">Submit</button>
         </form>
       </table>
     </div>

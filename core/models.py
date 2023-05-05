@@ -63,11 +63,11 @@ BUG_STATUS_CHOICES = [
 PRIORITY_CHOICES = [("LOW", "LOW"), ("MEDIUM", "MEDIUM"), ("HIGH", "HIGH")]
 
 SEVERITY_CHOICES = [
-    ("minor", "MINOR"),
-    ("normal", "NORMAL"),
-    ("major", "MAJOR"),
-    ("critical", "CRITICAL"),
-    ("blocker", "BLOCKER"),
+    ("MINOR", "MINOR"),
+    ("NORMAL", "NORMAL"),
+    ("MAJOR", "MAJOR"),
+    ("CRITICAL", "CRITICAL"),
+    ("BLOCKER", "BLOCKER"),
 ]
 
 SEVERITY_MAP = {
@@ -113,14 +113,11 @@ class Bug(models.Model):
     )
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES)
-    severity = models.CharField(max_length=20, null=True)
+    severity = models.CharField(max_length=20, null=True,choices=SEVERITY_CHOICES)
+    is_predicted = models.BooleanField(default=True)
 
     objects = BugManager()
 
-    def save(self, *args, **kwargs):
-        self.severity = SEVERITY_MAP.get(get_severity(self.description))
-        print(SEVERITY_MAP.get(get_severity(self.description)))
-        super(Bug, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.title}"

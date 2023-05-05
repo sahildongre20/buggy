@@ -1,7 +1,8 @@
 from turtle import width
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
-from .models import Bug, Project, User, Comments
+from .models import Bug, Project, User, Comments, SEVERITY_CHOICES, SEVERITY_MAP
+from .prediction import get_severity
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.forms import ModelMultipleChoiceField, ValidationError
@@ -140,6 +141,7 @@ class AddBugForm(forms.ModelForm):
         widget=forms.ClearableFileInput(attrs={"multiple": True}), required=False
     )
 
+
     class Meta:
         model = Bug
 
@@ -151,21 +153,25 @@ class AddBugForm(forms.ModelForm):
             "assigned_to",
             "submitted_by",
             "project",
+            "is_predicted"
         ]
         widgets = {
             "submitted_by": forms.HiddenInput(),
+                        "is_predicted": forms.CheckboxInput(attrs={"class": "form-check-input"}),
         }
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["assigned_to"].queryset = User.objects.filter(role="TM")
         self.fields["submitted_by"].queryset = User.objects.filter(id=user.id)
+        self.fields["project"].initial = user.assigned_to.id
+        self.fields["project"].widget.attrs["class"] = "disabled"
+
+
         if user.role == "TM":
-            self.fields["project"].initial = user.assigned_to.id
             self.fields["assigned_to"].initial = None
 
             self.fields["assigned_to"].widget.attrs["class"] = "disabled"
-            self.fields["project"].widget.attrs["class"] = "disabled"
 
     def clean(self):
         allowed_extensions = ["jpg", "jpeg", "png", "gif", "bmp", "log"]
@@ -182,6 +188,11 @@ class AddBugForm(forms.ModelForm):
 
     def save(self, commit=True):
         instance = super().save(commit=False)
+        if(instance.is_predicted):
+            instance.severity = SEVERITY_MAP.get(get_severity(instance.description))
+            print(SEVERITY_MAP.get(get_severity(instance.description)))
+        else:
+            instance.severity = SEVERITY_MAP.get("normal")
         if commit:
             instance.save()
 
@@ -191,16 +202,26 @@ class AddBugForm(forms.ModelForm):
             BugMedia.objects.create(bug=instance, file=f)
 
         return instance
+    
+
+        
+
 
 
 class UpdateBugForm(forms.ModelForm):
     class Meta:
         model = Bug
-        fields = ["title", "status", "priority", "assigned_to"]
+        fields = ["title", "status", "priority", "severity", "assigned_to","is_predicted"]
+
+        widgets = {
+            "is_predicted": forms.HiddenInput(),
+        }
 
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["assigned_to"].queryset = User.objects.filter(role="TM")
+        self.fields["severity"].queryset = SEVERITY_CHOICES
+        self.fields["severity"].initial = self.instance.severity
         self.fields["title"].widget.attrs["class"] = "disabled"
 
         if not user.is_project_owner:
