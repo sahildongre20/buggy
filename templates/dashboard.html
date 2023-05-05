@@ -1,19 +1,18 @@
 {%extends 'base.html'%} {%block navigation%}
 <style>
-   #sidebar {
-      width: 200px;
-    }
-    #content {
-      position: relative;
-      width: calc(100% - 200px);
-      left: 200px;
-      transition: 0.3s ease;
-    }
-    #sidebar.hide ~ #content {
-      width: calc(100% - 60px);
-      left: 60px;
-    }
-
+  #sidebar {
+    width: 200px;
+  }
+  #content {
+    position: relative;
+    width: calc(100% - 200px);
+    left: 200px;
+    transition: 0.3s ease;
+  }
+  #sidebar.hide ~ #content {
+    width: calc(100% - 60px);
+    left: 60px;
+  }
 </style>
 <!-- SIDEBAR -->
 <section id="sidebar">
@@ -22,40 +21,46 @@
     <span class="text">Buggy</span>
   </a>
   <ul class="side-menu top">
-    <li class="active">
+    <li {% if request.path == '/dashboard/' %} class="active" {%endif%}>
       <a href="/dashboard">
         <i class="bx bxs-dashboard"></i>
         <span class="text">Dashboard</span>
       </a>
     </li>
-    <li>
+    <li {% if request.path == '/dashboard/bugs/' %} class="active" {%endif%}>
       <a href="/dashboard/bugs/">
         <i class="bx bxs-bug"></i>
         <span class="text">Track Bug</span>
       </a>
     </li>
-    <li>
+    <li {% if request.path == '/dashboard/add_bug/' %} class="active" {%endif%}>
+
       <a href="/dashboard/add_bug/">
         <i class="bx bxs-add-to-queue"></i>
         <span class="text">Report Bug</span>
       </a>
     </li>
 
-    <li>
+    <li {% if request.path == '/dashboard/members/' %} class="active" {%endif%}>
       <a href="/dashboard/members">
         <i class="bx bxs-group"></i>
         <span class="text">Team</span>
       </a>
     </li>
     {% if user.is_project_owner%}
-    <li>
+
+
+  
+
+    <li {% if request.path == '/dashboard/add_team_member/' %} class="active" {%endif%}>
       <a href="/dashboard/add_team_member/">
         <i class="bx bx-user-plus"></i>
         <span class="text">Add Team Member</span>
       </a>
     </li>
     {%endif%}
-    <li>
+    
+    <li {% if request.path == '/dashboard/profile' %} class="active" {%endif%}>
       <a href="/dashboard/profile">
         <i class="bx bxs-user-account"></i>
         <span class="text">User Profile</span>
