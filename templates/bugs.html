@@ -3,32 +3,30 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'stylesheets/style.css' %}" />
   <main>
-    <h1>Bugs</h1>
+    <h2 style="padding: 0 ; margin: 0;">Bugs</h2>     
+
     <div class="table-data">
       <div class="order">
         <div class="head">
-          
-          <form  clss="search-box" method="GET" style="margin-bottom: 4%; margin-top: 2%; " autocomplete="off">
-            <input id="search_text" class="search" type="text" placeholder="Search" name="search"  />
-            <button type="submit" id="search_btn" class="bug-button">
-              Search <i class='bx bx-search-alt-2' ></i>
-              </button>
-              </form>
-          
-               
         </div>
+        <form  clss="search-box" method="GET" style="margin-bottom: 4%; margin-top: 2%; " autocomplete="off">
+          <input id="search_text" class="search" type="text" placeholder="Search" name="search"  />
+          <button type="submit" id="search_btn" class="bug-button">
+            Search <i class='bx bx-search-alt-2' ></i>
+            </button>
+            </form>
         <table>
           <thead>
             <tr>
-              <th class="id-w"><h6>Bug Id</h6></th>
-              <th><h6>Title</h6></th>
-              <th><h6>Date</h6></th>
-              <th><h6>Description</h6></th>
-              <th><h6>Priority</h6></th>
-              <th><h6>Status</h6></th>
-              <th><h6>Assigned To</h6></th>
-              <th><h6>Severity</h6></th>
-              <th><h6></h6></th>
+              <th class="id-w">Bug Id</th>
+              <th>Title</th>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Priority</th>
+              <th>Status<</th>
+              <th>Assigned To</th>
+              <th>Severity</th>
+              <th></th>
 
             </tr>
           </thead>

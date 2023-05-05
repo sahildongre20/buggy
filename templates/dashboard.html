@@ -1,5 +1,20 @@
 {%extends 'base.html'%} {%block navigation%}
+<style>
+   #sidebar {
+      width: 200px;
+    }
+    #content {
+      position: relative;
+      width: calc(100% - 200px);
+      left: 200px;
+      transition: 0.3s ease;
+    }
+    #sidebar.hide ~ #content {
+      width: calc(100% - 60px);
+      left: 60px;
+    }
 
+</style>
 <!-- SIDEBAR -->
 <section id="sidebar">
   <a href="/dashboard" class="brand">
