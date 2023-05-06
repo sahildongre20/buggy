@@ -1,38 +1,199 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en-US">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BugPredictor</title>
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/tailwindcss@2.2.17/dist/tailwind.min.css"
-    />
-  </head>
-  <body class="bg-gray-100">
-    <nav class="bg-gray-900 text-white">
-      <div
-        class="container mx-auto py-4 px-6 flex justify-between items-center"
-      >
-        <a href="/" class="text-lg font-bold">BugPredictor</a>
-        <a href="#" class="hover:text-gray-400">Login</a>
-      </div>
-    </nav>
+{% load static %}
 
-    <div class="container mx-auto py-12 px-6">
-      <div class="max-w-4xl mx-auto">
-        <h1 class="text-4xl font-bold text-gray-900">BugPredictor</h1>
-        <p class="text-lg text-gray-700 mt-4">
-          Track Bugs and Predict Severity of Bugs
-        </p>
-        <div class="mt-8">
-          <a
-            href="register"
-            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg"
-            >Get Started</a
-          >
+<link rel="stylesheet" href="{% static 'stylesheets/main.css' %}" />
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <!-- Custom Css -->
+    <!-- <link rel="stylesheet" href="/static/stylesheets/main.css" type="text/css" /> -->
+
+    <!-- Ionic icons -->
+    <link href="https://unpkg.com/ionicons@4.2.0/dist/css/ionicons.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/static/favicon_io/site.webmanifest">
+    <link rel="manifest" href="/static/favicon_io/site.webmanifest">
+
+    <title>Buggy</title>
+  </head>
+  <body>
+
+  <!-- N A V B A R -->
+  <nav class="navbar navbar-default navbar-expand-lg fixed-top custom-navbar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="icon ion-md-menu"></span>
+    </button>
+    <img src="/static/images/logo.png" class="img-fluid nav-logo-mobile" alt="Company Logo">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <div class="container">
+      	<img src="/static/images/logo.png" class="img-fluid nav-logo-desktop" alt="Company Logo">
+        <ul class="navbar-nav ml-auto nav-right" data-easing="easeInOutExpo" data-speed="1250" data-offset="65">
+          <li class="nav-item nav-custom-link">
+            <a class="nav-link" href="#">Home <i class="icon ion-ios-arrow-forward icon-mobile"></i></a>
+          </li>
+          <li class="nav-item nav-custom-link">
+            <a class="nav-link" href="#marketing">Features <i class="icon ion-ios-arrow-forward icon-mobile"></i></a>
+          </li>
+          <li class="nav-item nav-custom-link">
+            <a class="nav-link" href="https://github.com/pratik-londhe4/BugSeverityPredictionModel-nlp" target="_blank">AI Model <i class="icon ion-ios-arrow-forward icon-mobile"></i></a>
+          </li>
+          <li class="nav-item nav-custom-link">
+            <a class="nav-link" href="register"> Register <i class="icon ion-ios-arrow-forward icon-mobile"></i></a>
+          </li>
+          <li class="nav-item nav-custom-link btn btn-demo-small">
+            <a style="height: 25px; padding: 0;" class="nav-link" href="login">Login <i class="icon ion-ios-arrow-forward icon-mobile"></i></a>
+          </li> 
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- E N D  N A V B A R -->
+  
+  <!-- H E R O -->
+  <section id="hero" >
+    <div class="container box">
+      <div class="row  animate__animated animate__fadeIn">
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+          <img src="/static/images/iphone.png" class="img-fluid" alt="Demo image">
+        </div>
+        <div class="col-md-7 content-box hero-content">
+          <span style="font-size: 35px; text-transform: capitalize;">Buggy</span>
+          <h1 style="font-size: 35px;" ><b>Predict, Prioritize and Conquer Bugs </b> with Buggy's severity prediction and management </h1>
+          <p>"Revolutionize your bug management. Predict and track bugs with ease. Elevate your development process with Buggy."</p>
+          <a href="#marketing" class="btn btn-regular bug-button">Learn more</a>
         </div>
       </div>
     </div>
+  </section>
+  <!-- E N D  H E R O -->
+
+  <!--  F E A T U R E S -->
+  <section id="marketing">
+    <div class="container">
+      <div class="row box">
+        <div class="col-md-5">
+          <div class="content-box">
+            <span></span>
+            <h2 class="">Bug prediction:</h2>
+            <p>Buggy uses advanced algorithms like SVM, Naive Bayes, and Random Forest to predict the likelihood and severity of bugs based on their descriptions.</p>
+            <a href="register" class="btn btn-regular">Register</a>
+          </div>
+        </div>
+        <div class="col-md-7">
+            <img src="/static/images/predict.png" class="img-fluid" alt="Demo image">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="marketing">
+    <div class="container">
+      <div class="row box">
+        <div class="col-md-7">
+            <img src="/static/images/track.png" class="img-fluid" alt="Demo image">
+        </div>
+        <div class="col-md-5">
+          <div class="content-box">
+            <span></span>
+            <h2>Bug tracking:</h2>
+            <p>Buggy allows you to track bugs, monitor their progress, and assign them to team members for resolution.</p>
+            <a href="register" class="btn btn-regular">Register</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section id="marketing">
+    <div class="container">
+      <div class="row box">
+        <div class="col-md-5">
+          <div class="content-box">
+            <span></span>
+            <h2>Team management</h2>
+            <p>Buggy lets you add and manage team members, assign roles and permissions, and collaborate on bug tracking and management.</p>
+            <a href="register" class="btn btn-regular">Register</a>
+          </div>
+        </div>
+        <div class="col-md-7">
+            <img src="/static/images/team.png" class="img-fluid" alt="Demo image">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="marketing">
+    <div class="container">
+      <div class="row box">
+        <div class="col-md-7">
+            <img src="/static/images/dash.png" class="img-fluid" alt="Demo image">
+        </div>
+        <div class="col-md-5">
+          <div class="content-box">
+            <span></span>
+            <h2>Admin and user dashboards:</h2>
+            <p> Buggy's dashboards offer real-time updates and visualizations of bug tracking and management progress, including charts and graphs.</p>
+              <a href="register" class="btn btn-regular">Register</a>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- C A L L  T O  A C T I O N -->
+  <section id="call-to-action">
+    <div class="container text-center box">
+      <h2>"Get ahead of bugs. Try Buggy today."</h2>
+      <div class="title-block">
+        <p>Take the guesswork out of bug prediction and management. Try Buggy now for more efficient development.</p>
+        <a href="#" class="btn btn-regular">Go To Top</a>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- E N D  C A L L  T O  A C T I O N -->
+
+  <!--  F O O T E R  -->
+  <footer>
+    <div class="container">
+      <div class="divider"></div>
+      <div class="row box">
+        <div class="col-md-6 col-xs-12">
+          
+            <a href="https://github.com/pratik-londhe4/buggy" target="_blank"><i class="icon ion-logo-github"></i></a>
+            <a href="#"><i class="icon ion-logo-linkedin"></i></a>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <small>2018 &copy; All rights reserved. Made by <a href="https://github.com/sahildongre20/buggy" target="blank" class="external-links">Buggy</a></small>
+          </div>
+      </div>
+    </div>
+  </footer>
+  <!--  E N D  F O O T E R  -->
+    
+
+    <!-- External JavaScripts -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="/static/js/anim.js"></script>
   </body>
 </html>
